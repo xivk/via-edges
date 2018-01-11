@@ -65,6 +65,54 @@ namespace VIA.EdgesInRoute
             return edges;
         }
 
+        /// <summary>
+        /// Returns a coverage in meters for all given edges.
+        /// </summary>
+        /// <param name="coverage"></param>
+        /// <returns></returns>
+        public static List<EdgeCoverInMeter> ConvertToMeter(this RouterDb routerDb, List<RouterDbExtensions.EdgeCover> coverage)
+        {
+            var result = new List<EdgeCoverInMeter>(coverage.Count);
+
+            foreach (var cover in coverage)
+            {
+                var length = routerDb.Network.GetEdge(cover.DirectedEdgeId.EdgeId).Data.Distance;
+
+                result.Add(new EdgeCoverInMeter()
+                {
+                    DirectedEdgeId = cover.DirectedEdgeId,
+                    StartOffset = cover.StartPercentage / 100.0f * length,
+                    EndOffset = cover.EndPercentage / 100.0f * length
+                });
+            }
+
+            return result;
+        }
+        
+        public class EdgeCoverInMeter
+        {
+            /// <summary>
+            /// Gets or sets the edge id.
+            /// </summary>
+            public DirectedEdgeId DirectedEdgeId { get; set; }
+
+            /// <summary>
+            /// Gets or sets the start percentage.
+            /// </summary>
+            public float StartOffset { get; set; }
+
+            /// <summary>
+            /// Gets or sets the end offset in meter.
+            /// </summary>
+            public float EndOffset { get; set; }
+
+            public override string ToString()
+            {
+                return string.Format("{0}[{1}m-{2}m]", this.DirectedEdgeId,
+                    this.StartOffset.ToInvariantString(), this.EndOffset.ToInvariantString());
+            }
+        }
+
         public class EdgeCover
         {
             /// <summary>

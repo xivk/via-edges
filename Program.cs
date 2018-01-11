@@ -58,6 +58,11 @@ namespace VIA.EdgesInRoute
             edgeCoverage = router.CoveredEdges(routerpoint5, routerpoint4, rawRoute.Value);
             rawRoute = router.TryCalculateRaw(profile, router.GetDefaultWeightHandler(profile), routerpoint4, routerpoint5, null);
             edgeCoverage = router.CoveredEdges(routerpoint4, routerpoint5, rawRoute.Value);
+
+            // convert to meters.
+            rawRoute = router.TryCalculateRaw(profile, router.GetDefaultWeightHandler(profile), routerpoint1, routerpoint4, null);
+            edgeCoverage = router.CoveredEdges(routerpoint1, routerpoint4, rawRoute.Value);
+            var edgeCoverageInMeters = router.Db.ConvertToMeter(edgeCoverage);
         }
     }
 }
