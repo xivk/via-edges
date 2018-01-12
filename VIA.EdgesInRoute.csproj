@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Itinero.IO.Osm" Version="1.4.0-pre18" />
+    <PackageReference Include="Itinero.IO.Osm" Version="1.4.0-pre19" />
   </ItemGroup>
 
 </Project>
